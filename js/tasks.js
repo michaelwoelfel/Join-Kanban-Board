@@ -485,6 +485,7 @@ function addNewSubtask() {
             subtasks.push({
                 name: newSubtask,
                 clicked: `false`,
+                
             });
             document.getElementById('addTaskInputSubtask').value = '';
         }
@@ -504,24 +505,39 @@ function renderSubtask(currentSubtasks, newSubtask) {
 async function renderSubtasks(task) {
     await loadTasks();
     const subtask = task.subtask;
+    let taskCount = subtask.length;
+    let tasksClicked =  await countClickedSubtasks(subtask);
     const id = task.id;
-    for (let i = 0; i < subtask.length; i++) {
-        let element = subtask[i];
-        elementString = JSON.stringify(element);
-        let imgSrc = "assets/img/subtask_square.png";
-        let clicked = element['clicked']
-        if (clicked == 'true') {
-            imgSrc = "assets/img/done_white.png";
-            clicked = 'true';
-        }
         document.getElementById(`subtasks${id}`).innerHTML += /*html*/`
         <div class="subtaskssmall">
-            <img class="donesign" onclick="addDoneSignToSquare(event,'${id}',${i})" src="${imgSrc}" alt="Subtasks" data-clicked="${clicked}">
-            <span>${element['name']}</span>
+            <div><div class="subtaskprogressbar"><div id="subtaskprogressbar"></div></div></div>
+            <span>${tasksClicked}/${subtask.length} Subtasks</span>
         </div>    
         `;
+        colorSubtaskProgress(tasksClicked,taskCount);
     }
+
+
+async function colorSubtaskProgress(tasksClicked, taskCount) {
+    const progressBar = document.getElementById('subtaskprogressbar');
+    let colorPercent = tasksClicked/taskCount * 100;
+    progressBar.style.width = `${colorPercent}%`;
+    progressBar.style.backgroundColor = '#4589FF';
 }
+
+
+async function countClickedSubtasks(subtask) {
+    let count = 0;
+    for (let i = 0; i < subtask.length; i++) {
+        let element = subtask[i];
+        if (element['clicked'] === 'true') {
+            count++;
+        }
+    }
+    return count;
+}
+
+
 
 
 async function renderSubtasksBig(task) {
@@ -571,8 +587,6 @@ async function renderSubtasksEdit(task) {
         `;
     }
 }
-
-
 
 // ADDS 'done-sign'
 async function addDoneSignToSquare(event,id,i) {
