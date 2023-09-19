@@ -5,6 +5,34 @@ let subtasks = [];
 let colorIndex = 0;
 let taskStatus = `toDo`;
 
+
+
+async function addTaskWithPopup(event) {
+    await prepareTaskAdding(event);
+    let taskDetails = gatherTaskDetails();
+    
+    if (typeof taskPrio === 'undefined') {
+        showTaskPrioAlert();
+    } else {
+        let taskPrio = getTaskPrio();
+        await finalizeTaskAdding(taskDetails, taskPrio);
+    }
+    taskStatus = 'toDo';
+}
+
+async function addTask(event) {
+    await prepareTaskAdding(event);
+    let taskDetails = gatherTaskDetails();
+    if (typeof taskPrio === 'undefined') {
+        showTaskPrioAlert();
+    } else {
+        let taskPrio = getTaskPrio();
+        await finalizeTaskAddingPopup(taskDetails, taskPrio);
+    }
+    taskStatus = 'toDo';
+}
+
+
 /**
  * Checks and updates the task ID based on the existing tasks.
  */
@@ -95,30 +123,7 @@ async function finalizeTaskAdding(taskDetails, taskPrio) {
     setTimeout(closePopup, 1000);
 }
 
-async function addTaskWithPopup(event) {
-    await prepareTaskAdding(event);
-    let taskDetails = gatherTaskDetails();
-    
-    if (typeof taskPrio === 'undefined') {
-        showTaskPrioAlert();
-    } else {
-        let taskPrio = getTaskPrio();
-        await finalizeTaskAdding(taskDetails, taskPrio);
-    }
-    taskStatus = 'toDo';
-}
 
-async function addTask(event) {
-    await prepareTaskAdding(event);
-    let taskDetails = gatherTaskDetails();
-    if (typeof taskPrio === 'undefined') {
-        showTaskPrioAlert();
-    } else {
-        let taskPrio = getTaskPrio();
-        await finalizeTaskAddingPopup(taskDetails, taskPrio);
-    }
-    taskStatus = 'toDo';
-}
 
 
 async function finalizeTaskAddingPopup(taskDetails, taskPrio) {
@@ -504,25 +509,29 @@ function renderSubtask(currentSubtasks, newSubtask) {
 
 async function renderSubtasks(task) {
     await loadTasks();
-    const subtask = task.subtask;
+    let subtask = task.subtask;
     let taskCount = subtask.length;
     let tasksClicked =  await countClickedSubtasks(subtask);
-    const id = task.id;
-        document.getElementById(`subtasks${id}`).innerHTML += /*html*/`
+    let id = task.id;
+    if (taskCount > 0) {
+        document.getElementById(`subtasks${id}`).innerHTML += await /*html*/`
         <div class="subtaskssmall">
-            <div><div class="subtaskprogressbar"><div id="subtaskprogressbar"></div></div></div>
+            <div><div class="subtaskprogressbar"><div id="subtaskprogressbar${id}"></div></div></div>
             <span>${tasksClicked}/${subtask.length} Subtasks</span>
         </div>    
         `;
-        colorSubtaskProgress(tasksClicked,taskCount);
+        await colorSubtaskProgress(tasksClicked,taskCount,id);
+    }
     }
 
 
-async function colorSubtaskProgress(tasksClicked, taskCount) {
-    const progressBar = document.getElementById('subtaskprogressbar');
+async function colorSubtaskProgress(tasksClicked, taskCount,id) {
+    let progressBar = document.getElementById(`subtaskprogressbar${id}`);
     let colorPercent = tasksClicked/taskCount * 100;
     progressBar.style.width = `${colorPercent}%`;
     progressBar.style.backgroundColor = '#4589FF';
+    progressBar.style.height = '10px';
+    progressBar.style.borderRadius = '10px';
 }
 
 

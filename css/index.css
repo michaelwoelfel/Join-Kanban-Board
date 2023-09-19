@@ -122,6 +122,7 @@ a {
     cursor: pointer;
     background-color: #29ABE2;
     box-shadow: 1px 3px rgba(0, 0, 0, 0.1);
+    border-color: transparent;
 }
 
 .loginbutton:hover {
@@ -208,7 +209,7 @@ input {
 }
 
 input {
-    color: black!important;
+    color: #091931!important;
 }
 
 
@@ -267,6 +268,7 @@ input {
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
+    border-color: transparent;
 }
 
 .guestbutton {

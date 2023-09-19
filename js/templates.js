@@ -107,6 +107,8 @@ function editTaskResponsive(index) {
  * @param {Object} popup - The DOM object for the popup element.
  */
 async function renderPopUp(popup) {
+    selectedUsers = [];
+    await setItem('selectedUsers', JSON.stringify(selectedUsers));
     popup.innerHTML = /*html*/ `
         <div class="popup-background" onclick="closePopup()">
             <div class="popup-content" onclick="doNotClose(event)">
