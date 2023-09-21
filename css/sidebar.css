@@ -44,9 +44,16 @@ body{
     background-color: #091931;
 }
 
+
 .side-bar-image {
     width: 25px;
     height: 25px;
+    
+}
+
+#meineSvg .pfad {
+    fill: #FF0000;  /* Ändert die Füllfarbe */
+    stroke: #0000FF; /* Ändert die Linienfarbe, falls vorhanden */
 }
 
 a {

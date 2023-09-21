@@ -240,6 +240,7 @@ h3 {
     flex-direction: column;
     gap: 20px;
     margin-bottom: 20px;
+    border: 1px solid transparent;
 }
 
 .subtaskprogressbar {
