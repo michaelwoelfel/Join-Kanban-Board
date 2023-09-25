@@ -162,6 +162,7 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-left: 15px;
    
 }
 
@@ -193,7 +194,7 @@ h3 {
     background-color: #FF7A00;
     color: white;
     margin-top: 20px;
-    margin-left: 30px;
+    margin-left: 25px;
     flex-direction: row;
     display: flex;
     align-items: center;
@@ -266,9 +267,11 @@ h3 {
 }
 
 .taskdescription {
-    padding-left: 30px;
     padding-top: 20px;
     font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .subtaskdescription {
@@ -278,7 +281,6 @@ h3 {
 }
 
 .subtaskdescriptionbig {
-    padding-left: 35px;
     padding-top: 10px;
    
 }
@@ -296,14 +298,15 @@ h3 {
      padding-top: 5px;
      align-items: center;
      justify-content: center;
+     text-align: center;
 }
 
 .contact-container {
-    width:90%;
+    width:100%;
     display: flex;
     align-items: center;
     position: relative; 
-    gap: 15px;
+    gap: 30px;
     min-width: 20px;
    
     
@@ -329,12 +332,6 @@ h3 {
     
 }
 
-.subtasksbig {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
 .donesign {
     width: 20px;
    
@@ -350,21 +347,27 @@ h3 {
 }
 
 
-.subtasksbig {
+.subtasksbigwrapper {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 15px;
     height: 30px;
     margin-right: 5px;
+    width: 100%;
+    justify-content: space-around;
+    
 }
 
 
 .datecontainer {
     display: flex;
-    flex-direction: row;
-    padding-left: 30px;
     padding-top: 30px;
     gap: 30px;
+    justify-content: space-between;
+    padding-left: 200px;
+    padding-right: 200px;
+   
+    
 }
 
 .prioritybigtask {
@@ -386,7 +389,7 @@ h3 {
     position: fixed;
     justify-content: flex-end;
     z-index: 3000;
-    bottom: 20%;
+    bottom: 10%;
     right: 17%;
 
 
@@ -395,19 +398,19 @@ h3 {
 .bigtaskusers{
     display: flex;
     flex-direction: column;
-    padding-left: 15px;
     padding-top: 30px;
 }
 
 #editimg {
-    margin-right: 10px;
+    margin-right: 15px;
     
     
 }
 
 #editimg:hover {
     box-shadow: 2px 3px 5px black;
-    border-radius: 10px;
+   transform: scale(1.1);
+   border-radius: 12px;
 
 }
 
@@ -423,16 +426,50 @@ h3 {
 
 #deleteimg:hover {
     box-shadow: 2px 3px 5px black;
+    transform: scale(1.1);
     border-radius: 10px;
+    border: none;
+   
 
 }
 
 .users{
     padding-top: 10px;
     overflow: auto;
-    height: 100px;
+    height: 300px;
     margin-right: 10px;
+    width: 80%;
+}
+
+.taskdescriptionbig {
+    padding-left: 0;
+    justify-content: center;
+    display: flex;
+}
+
+.subtaskdescription {
+    justify-content: space-evenly;
+    display: flex;
+    padding-left: 0;
     
+}
+
+.tasktext {
+    display: flex;
+    justify-content: center;
+    margin-left: 0;
+    text-align: center;
+}
+
+.taskheader {
+    justify-content: space-between;
+
+}
+
+
+
+.bigtaskusers {
+   align-items: center;
 }
 
 .stop-overflow {
@@ -443,10 +480,8 @@ h3 {
 
 .tasktext {
     padding-top: 15px;
-    margin-left: 30px;
     color: #A8A8A8;
     display: flex;
-   margin-right: 5px;
     overflow: auto;
 }
 
@@ -492,6 +527,7 @@ h3 {
     gap: 10px;
 }
 
+
 .taskfooter {
     display: flex;
     padding-left: 30px;
@@ -504,8 +540,10 @@ h3 {
 .prioritycontainer {
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    justify-content: space-between;
     padding-top: 30px;
+    padding-left: 200px;
+    padding-right: 200px;
    gap: 30px;
 }
 
@@ -545,6 +583,10 @@ h3 {
         flex-wrap: wrap;
     }
 
+    .category {
+        margin-left: 0;
+    }
+
     .task {
         width: 300px;
         margin-bottom: 80px;
@@ -560,6 +602,16 @@ h3 {
     @media(max-width: 1300px) {
         .task {
             width: 73%;
+        }
+
+        .prioritycontainer {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .datecontainer {
+            padding-left: 20px;
+            padding-right: 25px;
         }
 
         .buttoncontainer{
@@ -610,6 +662,18 @@ h3 {
     .search {
         margin-left: 100px;
     }
+
+    .content {
+       
+        align-items: center;
+    }
+
+    .taskfooter {
+        gap: 10px;
+        align-items: center;
+    }
+
+    
 }
 
 
@@ -640,6 +704,15 @@ h3 {
         margin-left: 50px;
     }
 
+    .plus-sign-mobile {
+        margin-right: 80px;
+        margin-top: 5px;
+    }
+
+    .search {
+        margin-left: 30px;
+    }
+
     .task {
         width: 81%;
     }
@@ -662,6 +735,14 @@ h3 {
 .add_task_left {
     margin-left: 16px;
     margin-right: 20px;
+}
+
+
+@media(max-width: 365px) {
+    .taskdescriptionbig {
+        display: flex;
+        text-align: center;
+    }
 }
 }
 

@@ -1,8 +1,4 @@
-/**
- * List of contacts.
- */
-// let contacts;
-colorIndex = 0;
+
 
 /**
  * Collects the input values, pushes a new contact to the list and saves the list in the local storage.
@@ -13,17 +9,15 @@ async function addContact() {
     let ContactName = document.getElementById('contactName').value;
     let ContactMail = document.getElementById('contactMail').value;
     let ContactPhone = document.getElementById('contactPhone').value;
-    // Create a new contact and push it to the list
+    let contactColor = getRandomColor();
     contacts.push({
         name: ContactName,
         mail: ContactMail,
         phone: ContactPhone,
+        color: contactColor,
     });
-    // Save the updated list to the local storage
     await setItem('contacts', JSON.stringify(contacts));
-    // Show the "Added to board information"
     getRandomColor();
-    // Update the view
     renderContacts();
     document.getElementById('addedToBoard').style.zIndex = "1500";
     await taskAddedToBoard();
@@ -35,27 +29,26 @@ async function sortContactsAlphabetically() {
     await loadContacts();
     contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
+
 async function renderContacts() {
     await sortContactsAlphabetically();
-
     let currentLetter = '';
     document.getElementById('contactList').innerHTML = '';
-
     for (let i = 2; i < contacts.length; i++) {
         const contact = contacts[i];
         const firstLetter = contact['name'].charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            document.getElementById('contactList').innerHTML += createLetterHeader(currentLetter); // HTML AUSGELAGERT IN CONTACTS TEMPLATE
+            document.getElementById('contactList').innerHTML += createLetterHeader(currentLetter); 
         }
         let secondLetter = '';
         let nameParts = contact['name'].split(' ');
         if (nameParts.length > 1 && nameParts[1].length > 0) {
             secondLetter = nameParts[1].charAt(0).toUpperCase();
         }
-        let randomColor = contact.color || getRandomColor();
+        let randomColor = contact.color;
         contact.color = randomColor;
-        document.getElementById('contactList').innerHTML += createContact(i, contact, randomColor, secondLetter); // HTML AUSGELAGERT IN CONTACTS TEMPLATE
+        document.getElementById('contactList').innerHTML += createContact(i, contact, randomColor, secondLetter); 
     }
 }
 
@@ -88,7 +81,7 @@ function taskAddedToBoard() {
 async function showContact(i, randomColor, secondLetter) {
     const contact = contacts[i];
     const firstLetter = contact['name'].charAt(0).toUpperCase();
-    const contactInfoHTML = await createContactInfoHTML(i, contact, randomColor, firstLetter, secondLetter); // HTML AUSGELAGERT IN CONTACTS TEMPLATE
+    const contactInfoHTML = await createContactInfoHTML(i, contact, randomColor, firstLetter, secondLetter); 
     document.getElementById('showContact').innerHTML = contactInfoHTML;
     if (window.matchMedia("(max-width: 800px)").matches) {
         document.getElementById('contactInfo').classList.add('d-flex');
@@ -136,9 +129,6 @@ async function saveContact(i) {
     await setItem('contacts', JSON.stringify(contacts));
     renderContacts();
     setTimeout(closeEditContact, 500);
-
-
-
 };
 
 /**
@@ -247,11 +237,9 @@ function getRandomColor() {
         'rgb(1, 98, 177)',
         'rgb(245, 235, 0)'
     ];
-
     if (colorIndex >= colors.length) {
         colorIndex = 0;
     }
-
     const color = colors[colorIndex];
     colorIndex++;
     return color;

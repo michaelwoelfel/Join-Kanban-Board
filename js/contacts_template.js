@@ -11,7 +11,6 @@ function createLetterHeader(letter) {
 function createContact(index, contact, randomColor, secondLetter) {
     const name = contact.name;
     const mail = contact.mail;
-
     return `
         <div class="contact-container">
             <div onclick="showContact(${index},'${randomColor}','${secondLetter}')" class="contact">
@@ -21,7 +20,7 @@ function createContact(index, contact, randomColor, secondLetter) {
                 </div>
                 <div class="contactinfo">
                     <span id="name">${name}</span>
-                    <a href="mailto:${mail}" id="email">${mail}</a>
+                    <a href="#" id="email">${mail}</a>
                 </div>
             </div>
         </div>
@@ -45,9 +44,9 @@ function createContactInfoHTML(i, contact, randomColor, firstLetter, secondLette
                 <span>Contact Information:</span>
                 <img onclick="editContact(${i},'${firstLetter}','${secondLetter}','${randomColor}')" id="editContactsImg" src="assets/img/editcontacts.png">
             </div>
-            <div class="contactmailbig">
+            <div  class="contactmailbig">
                 <span><b>Email</b></span>
-                <a href="mailto:${contact['mail']}">${contact['mail']}</a>
+                <a id="emailbig" href="mailto:${contact['mail']}">${contact['mail']}</a>
             </div>
             <div class="contactphonebig">
                 <span><b>Phone</b></span>

@@ -1,4 +1,10 @@
 
+/**
+ * Generates an HTML template for a given task.
+ * 
+ * @param {Object} task - The task object containing details like id, category, name, tasktext, and priority.
+ * @returns {string} An HTML template representing the task.
+ */
 async function taskTemplate(task) {
     return /*html*/ `
         <div draggable="true" ondragstart="startDragging(${task['id']})" onclick="handleTaskClick(${task['id']})" class="content">
@@ -18,18 +24,33 @@ async function taskTemplate(task) {
     `;
 }
 
-
+/**
+ * Generates an HTML template for a user's initials with a given background color.
+ * 
+ * @param {string} randomColor - The background color for the user's initials container.
+ * @param {string} firstLetter - The first initial of the user.
+ * @param {string} secondLetter - The second initial of the user.
+ * @returns {string} An HTML template representing the user's initials with the specified background.
+ */
 async function taskUserTemplate(randomColor, firstLetter, secondLetter) {
     return /*html*/ `<div class="contact-container">
-    <div class="imgcontainer" style="background-color: ${randomColor};">
-        <span id="firstLetter">${firstLetter}</span>
-        <span id="secondLetter">${secondLetter}</span>
-    </div>
-</div>`;
-
+        <div class="imgcontainer" style="background-color: ${randomColor};">
+            <span id="firstLetter">${firstLetter}</span>
+            <span id="secondLetter">${secondLetter}</span>
+        </div>
+    </div>`;
 }
 
 
+/**
+ * Generates an HTML template for a user, displaying their initials with a given background color and their full name.
+ * 
+ * @param {string} randomColor - The background color for the user's initials container.
+ * @param {string} firstLetter - The first initial of the user.
+ * @param {string} secondLetter - The second initial of the user.
+ * @param {string[]} nameParts - An array containing parts of the user's name.
+ * @returns {string} An HTML template representing the user with initials and full name.
+ */
 function createUserHTML(randomColor, firstLetter, secondLetter, nameParts) {
     return `
         <div class="imgcontainer" style="background-color: ${randomColor};">
@@ -40,10 +61,14 @@ function createUserHTML(randomColor, firstLetter, secondLetter, nameParts) {
     `;
 }
 
+/**
+ * Generates detailed HTML representation for a specific task based on its index in the 'tasks' array.
+ * 
+ * @param {number} index - The index of the task in the 'tasks' array.
+ * @returns {Promise<string>} An HTML template representing the detailed view of the specified task.
+ */
 async function generateTaskDetailsHTML(index) {
-    // Retrieves the task with the given index
     let task = tasks[index];
-    // Generate the HTML content for the task details
     return /*html*/ `
         <div class="bigtask" id="task${index}">
             <div class="taskheader">
@@ -51,7 +76,7 @@ async function generateTaskDetailsHTML(index) {
                 <div onclick="closeTask()"><img id="closeimg" src="assets/img/close.png"></div>
             </div>
             <div id="taskNameHeader" class="taskdescriptionbig"><b>${task['name']}</b></div>
-            <div class="subtaskdescription"><div class="subtasksbig" id="subtasksbig${task.id}"></div></div>
+            <div class="subtaskdescription"><div class="subtasksbigwrapper" id="subtasksbig${task.id}"></div></div>
             <div class="tasktext">${task['tasktext']}</div>
             <div class="datecontainer">
                 <span><b>Due date:</b></span>
@@ -76,31 +101,40 @@ async function generateTaskDetailsHTML(index) {
     `;
 }
 
-function editTaskResponsive(index) {
+
+
+/**
+ * Displays a modal for editing a task's details in a responsive manner.
+ * 
+ * @param {number} taskId - The ID of the task to be edited.
+ */
+function editTaskResponsive(taskId) {
+    let index = tasks.findIndex(task => task.id === taskId);
     let task = tasks[index];
     let modalContent = /*html*/ `
-    <div id="editTaskModal" class="edit-task-popup">
-        <div class="modal-content">
-            <span class="edit-task-popup-header" id="taskNameHeader">${task['name']}</span>
-            <div class="edit-task-popup-buttons">
-            <span class="edit-task-popup-header-category">Change Status</span>
-                <button class="edit-task-popup-button-style" onclick="editTaskStatus(${index}, 'toDo')">To Do</button>
-                <button class="edit-task-popup-button-style" onclick="editTaskStatus(${index}, 'inProgress')">In Progress</button>
-                <button class="edit-task-popup-button-style" onclick="editTaskStatus(${index}, 'awaitingFeedback')">Awaiting Feedback</button>
-                <button class="edit-task-popup-button-style" onclick="editTaskStatus(${index}, 'done')">Done</button>
-                <span class="edit-task-popup-header-category">Task</span>
-                <div class="editandclosebottom">
-                <button class="edit-task-popup-button-style" onclick="openTask(${index})">Show Task</button>
-                <button class="edit-task-popup-button-style" onclick="editTask(${index})">Edit Task</button>
-                <button class="edit-task-popup-button-style" onclick="closeEditTaskModal(${index})">Back</button>
-</div>
+        <div id="editTaskModal" class="edit-task-popup">
+            <div class="modal-content">
+                <span class="edit-task-popup-header" id="taskNameHeader">${task['name']}</span>
+                <div class="edit-task-popup-buttons">
+                <span class="edit-task-popup-header-category">Change Status</span>
+                    <button class="edit-task-popup-button-style-top" onclick="editTaskStatus(${index}, 'toDo')">To Do</button>
+                    <button class="edit-task-popup-button-style-top" onclick="editTaskStatus(${index}, 'inProgress')">In Progress</button>
+                    <button class="edit-task-popup-button-style-top" onclick="editTaskStatus(${index}, 'awaitingFeedback')">Awaiting Feedback</button>
+                    <button class="edit-task-popup-button-style-top" onclick="editTaskStatus(${index}, 'done')">Done</button>
+                    <span class="edit-task-popup-header-category">Task</span>
+                    <div class="editandclosebottom">
+                    <button class="edit-task-popup-button-style" onclick="openTask(${index})">Show Task</button>
+                    <button class="edit-task-popup-button-style" onclick="editTask(${index})">Edit Task</button>
+                    <img class="closeimgpopup-edit" src="assets/img/add_task_cancel.png" alt="cancel" onclick="closeEditTaskModal(${index})">
+                </div>
+                </div>
             </div>
         </div>
-    </div>
-`;
+    `;
     document.getElementById('showTask').innerHTML = modalContent;
     document.getElementById('showTask').classList.remove('d-none');
 }
+
 
 /**
  * Renders the popup content for adding a task.

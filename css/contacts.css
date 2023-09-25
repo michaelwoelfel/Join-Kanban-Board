@@ -52,6 +52,14 @@ body {
     color: orange;
 }
 
+#emailbig {
+    color:#29ABE2;
+}
+
+#emailbig:hover {
+    color: orange;
+}
+
 #contactInfo {
     display: flex;
     flex-direction: column;
@@ -118,14 +126,17 @@ h3 {
     background-color: #2A3647;
     color: white;
     border: none;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding: 7px;
-    position: fixed; /*das brauche ich um buton nach unten zutun*/
+    border-radius: 12px;
+    padding: 15px;
+    position: fixed; 
     bottom: 60px;
-    right: 40px
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    justify-content: space-between;
+
 }
 
 .btn-contact:hover {
@@ -453,7 +464,6 @@ h3 {
 
     .create-btn {
         background-color: #2A3647;
-       
         color: white;
         display: flex;
         justify-content: center;
@@ -753,7 +763,7 @@ margin-top: 10px;
     }
 
     .imgcontainer {
-        margin-left: 0px;
+        margin-left: 10px;
     }
 }
 
@@ -839,10 +849,11 @@ margin-top: 10px;
 
     .btn-contact {
         position: fixed;
-        top: 88px;
+        top: 96px;
         right: 20px;
         width: 179px;
         height: 50px;
+        border-radius: 12px;
     }
 
     .contactheader {

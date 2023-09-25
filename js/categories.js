@@ -1,23 +1,23 @@
 const CATEGORY_TOKEN = 'AJC71697BN5LXRUJOR4Z45CDA2LKLEYJQ7ZWLVNX';
 const CATEGORY_URL = 'https://remote-storage.developerakademie.org/item';
-
 let currentCategory;
 let currentColorOfCategory;
 let allCategories = [];
 
 loadNewCategory();
 
-
-
-// Checkes if the field "new category is selected"
+/**
+* Checkes if the field "new category" is selected
+ */
 function handleCategoryChange(liElement) {
     if (liElement.textContent === 'New category') {
         addNewCategory();
     }
 }
 
-
-//  opens a popup to give a name to a new category and fills in the new category
+/**
+ * Opens a popup to let the user give a name to a new category and subsequently fills in the new category.
+ */
 function addNewCategory() {
     const newCategoryDiv = document.createElement('div');
     newCategoryDiv.className = 'new-category-popup';
@@ -25,8 +25,9 @@ function addNewCategory() {
     document.body.appendChild(newCategoryDiv);
 }
 
-
-// Creates a new category and closes popup by click on the submit btn
+/**
+ * Creates a new category based on the input value, updates the category list, and closes the popup upon clicking the submit button.
+ */
 function submitNewCategory() {
     const newCategory = document.getElementById('newCategoryInput').value;
     const newLi = document.getElementById('addTaskCategorySelect');
@@ -46,7 +47,6 @@ function setColorForNewCategory() {
     let newColor = getRandomColorDot();
     currentColorOfCategory = newColor;
 }
-
 
 /**
  * Generates a random hexadecimal color.
@@ -109,9 +109,6 @@ async function showCategories() {
     }
 }
 
-
-
-
 /**
  * Asynchronously sets the current category and its associated color.
  * @param {string} category - The name of the current category.
@@ -123,10 +120,7 @@ async function setCurrentCategory(category, colorDot) {
     await setItem('currentCategory', JSON.stringify(currentCategory));
     await setItem('currentColorOfCategory', JSON.stringify(currentColorOfCategory));
     await closeDropdown();
-
-
 }
-
 
 /**
  * Asynchronously sends a POST request to set a new category.
@@ -162,7 +156,6 @@ async function openDropdownMenu() {
     let dropdown = document.getElementById('dropdown');
     dropdown.classList.toggle('border-radius');
     await showCategories();
-
 }
 
 /**
@@ -189,7 +182,6 @@ function readNameOfCategoryInBoard(liElement) {
         currentCategory = selectedCategory;
     }
 }
-
 
 /**
  * Renders the selected category and its color in the dropdown UI.
@@ -221,7 +213,6 @@ async function saveCategories() {
     await setItem('allCategories', JSON.stringify(allCategories));
 }
 
-
 /**
  * Asynchronously loads all categories from local storage.
  */
@@ -230,10 +221,8 @@ async function loadCategories() {
         allCategories = JSON.parse(await getItem('allCategories'));
     } catch (e) {
         console.error('Loading error:', e);
-
     }
 }
-
 
 /**
  * Clears all categories from local storage and updates the UI.

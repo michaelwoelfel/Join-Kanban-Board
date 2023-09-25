@@ -206,10 +206,11 @@ function hideMenu() {
 
 // TASK MOBILE BOARD
 
-function editTaskStatus(index, newStatus) {
+async function editTaskStatus(index, newStatus) {
     let task = tasks[index];
     task.status = newStatus;
     document.getElementById('showTask').classList.add('d-none');
+    await setItem('tasks', JSON.stringify(tasks));
     updateHTML();
 }
 

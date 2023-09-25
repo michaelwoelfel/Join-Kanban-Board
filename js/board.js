@@ -31,7 +31,6 @@ function doNotClose(event) {
     event.stopPropagation();
 }
 
-// COLOR FUNCTIONS
 /**
  * Changes the color of the priority to red when the "Urgent" button is clicked.
  */
@@ -68,7 +67,6 @@ function prioColorGreen() {
     low.classList.toggle('prio-btn-low-clicked');
 }
 
-
 // CONTACT FUNCTIONS
 /**
  * Renders the Contacts in the "Assign to" Selector on Add Task. 
@@ -95,10 +93,8 @@ function pushCurrentContact(event) {
     let checked = event.target.checked;
     let name = event.target.value;
     if (checked) {
-        // Add the name to the array if the checkbox is checked
         selectedUsers.push(name);
     } else {
-        // Remove the name from the array if the checkbox is unchecked
         selectedUsers = selectedUsers.filter(function (user) {
             return user !== name;
         });
@@ -106,10 +102,18 @@ function pushCurrentContact(event) {
     saveSelectedUsers();
 }
 
+/**
+ * Saves the selected users to local storage.
+ * @returns {Promise<void>}
+ */
 async function saveSelectedUsers() {
     await setItem('selectedUsers', JSON.stringify(selectedUsers));
 }
 
+/**
+ * Loads the selected users from local storage.
+ * @returns {Promise<void>}
+ */
 async function loadSelectedUsers() {
     try {
         selectedUsers = JSON.parse(await getItem('selectedUsers'));
@@ -118,11 +122,11 @@ async function loadSelectedUsers() {
     }
 }
 
-// SEARCH FUNCTIONS
-
-
-
-
+/**
+ * Searches for a task based on the value from the search input. 
+ * Displays the tasks that match the search criteria.
+ * @returns {Promise<void>}
+ */
 async function findTask() {
     let search = document.getElementById('searchTaskInput').value.toLowerCase();
     await clearAllTasks();
@@ -138,6 +142,14 @@ async function findTask() {
     }
 }
 
+/**
+ * Handles the display of tasks that match the search criteria and status.
+ * @param {Object} task - The task to check against the search criteria.
+ * @param {string} search - The search criteria.
+ * @param {string} taskStatus - The status of the task.
+ * @param {string} taskStatusName - The name of the task status for comparison.
+ * @returns {Promise<void>}
+ */
 async function handleTaskSearch(task, search, taskStatus, taskStatusName) {
     let searchTask = task['name'];
     if (searchTask.toLowerCase().includes(search) && taskStatus == taskStatusName) {
@@ -146,13 +158,16 @@ async function handleTaskSearch(task, search, taskStatus, taskStatusName) {
     }
 }
 
-
+/**
+ * Clears the content of all task sections.
+ */
 function clearAllTasks() {
     document.getElementById('inProgress').innerHTML = '';
     document.getElementById('toDo').innerHTML = '';
     document.getElementById('awaitingFeedback').innerHTML = '';
     document.getElementById('done').innerHTML = '';
 }
+
 
 
 
