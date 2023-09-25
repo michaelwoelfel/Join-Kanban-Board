@@ -1,3 +1,9 @@
+/**
+ * Creates an HTML template representing a header with a given letter.
+ * 
+ * @param {string} letter - The letter to be displayed in the header.
+ * @returns {string} An HTML template of the header with the given letter.
+ */
 function createLetterHeader(letter) {
     return `
         <div class="contact-container">
@@ -8,6 +14,15 @@ function createLetterHeader(letter) {
     `;
 }
 
+/**
+ * Creates an HTML template for a contact with name, mail, and visual identifiers.
+ * 
+ * @param {number} index - The index or ID of the contact.
+ * @param {Object} contact - The contact object containing name and mail.
+ * @param {string} randomColor - The background color for the contact's visual representation.
+ * @param {string} secondLetter - The second initial of the contact's name.
+ * @returns {string} An HTML template representing the specified contact.
+ */
 function createContact(index, contact, randomColor, secondLetter) {
     const name = contact.name;
     const mail = contact.mail;
@@ -27,6 +42,16 @@ function createContact(index, contact, randomColor, secondLetter) {
     `;
 }
 
+/**
+ * Generates detailed HTML representation for a contact.
+ * 
+ * @param {number} i - The index or ID of the contact.
+ * @param {Object} contact - The contact object containing name, mail, and phone.
+ * @param {string} randomColor - The background color for the contact's visual representation.
+ * @param {string} firstLetter - The first initial of the contact's name.
+ * @param {string} secondLetter - The second initial of the contact's name.
+ * @returns {string} An HTML template for detailed view of the specified contact.
+ */
 function createContactInfoHTML(i, contact, randomColor, firstLetter, secondLetter) {
     return `
         <div class="headinfo">
@@ -56,6 +81,12 @@ function createContactInfoHTML(i, contact, randomColor, firstLetter, secondLette
     `;
 }
 
+/**
+ * Creates an HTML template with buttons for editing contact operations.
+ * 
+ * @param {number} i - The index or ID of the contact.
+ * @returns {string} An HTML template with edit operation buttons for the specified contact.
+ */
 function createEditContactButtonsHTML(i) {
     return `
         <button onclick="deleteContact(${i})" class="cancel-btn">Delete</button>

@@ -1,7 +1,4 @@
-/**
- * @var {Array} users - Array to hold the users' data.
- * @var {string} currentUser - String to hold the current user's data.
- */
+
 let users;
 let currentUser;
 let rememberedUser = [];
@@ -117,6 +114,10 @@ async function login(event) {
     }
 }
 
+
+/**
+ *  Automatically move forward to the Summary page after signing up.    
+ */
 async function loginAfterSignup() {
     let user = users[users.length - 1];
     currentUser = user.username;
@@ -151,7 +152,10 @@ async function getItem(key) {
     });
 }
 
-
+/**
+ * 
+ * Saves the User for the next Login on the same device.
+ */
 function rememberUser() {
     rememberedUserMail = document.getElementById('inputmail').value;
     rememberedUserPassword = document.getElementById('inputpassword').value;
@@ -159,10 +163,14 @@ function rememberUser() {
         mail: rememberedUserMail,
         password: rememberedUserPassword,
     });
-
     localStorage.setItem('rememberedUser', JSON.stringify(rememberedUser));
 }
 
+
+/**
+ * 
+ * Loads the saved User for a more comfortable Login.
+ */
 function loadRememberedUser() {
     let storedUser = JSON.parse(localStorage.getItem('rememberedUser'));
     if (storedUser != null) {

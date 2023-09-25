@@ -1,9 +1,7 @@
 
-
 /**
  * Collects the input values, pushes a new contact to the list and saves the list in the local storage.
  * Notifies the user about the added contact and re-renders the contact list.
- * @returns {Promise<void>}
  */
 async function addContact() {
     let ContactName = document.getElementById('contactName').value;
@@ -25,11 +23,29 @@ async function addContact() {
 
 };
 
+/**
+ * Sorts the global contacts array in alphabetical order based on contact names.
+ * This function assumes that `loadContacts` has been defined elsewhere in the code 
+ * and that it fetches and updates the global contacts array.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function sortContactsAlphabetically() {
     await loadContacts();
     contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/**
+ * Renders the list of contacts alphabetically in the 'contactList' DOM element.
+ * The function categorizes contacts based on the first letter of their names and 
+ * creates headers for each group of contacts starting with the same letter.
+ * This function assumes the existence of a global contacts array and the helper functions 
+ * `createLetterHeader` and `createContact`.
+ * 
+ * @async
+ * @returns {Promise<void>}
+ */
 async function renderContacts() {
     await sortContactsAlphabetically();
     let currentLetter = '';
@@ -161,6 +177,9 @@ function openEditContact() {
 
 }
 
+/**
+ * Closes the edit contact form.
+ */
 function closeEditContact() {
     document.getElementById('modalOneEdit').classList.add('d-none');
 }
@@ -212,7 +231,6 @@ function getRandomInt(min, max) {
  * Returns a random RGB color.
  * @returns {string} - A random RGB color.
  */
-
 function getRandomColor() {
 
     const colors = [

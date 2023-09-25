@@ -1,4 +1,4 @@
-// GENERAL FUNCTIONS ....
+
 /**
  * Allows for dropping an element.
  * @param {Event} ev - The drop event.
@@ -14,15 +14,24 @@ function moveTo(category) {
     tasks[currentDraggedElement]['status'] = category;
     updateTaskStatus(currentDraggedElement, category);
     updateHTML();
-
 }
 
+/**
+ * Highlights the specified HTML element by adding the 'task-status-container-highlight' class.
+ * 
+ * @param {string} id - The ID of the HTML element to be highlighted.
+ */
 function highlight(id) {
     document.getElementById(id).classList.add('task-status-container-highlight');
 }
 
+/**
+ * Removes the highlight effect by removing the 'task-status-container-highlight' class from 
+ * all container IDs except the specified one.
+ * 
+ * @param {string} id - The ID of the HTML element that should not have the highlight effect removed.
+ */
 function removeHighlight(id) {
-    // Entferne das Highlight von allen anderen Containern
     const containerIds = ['toDo', 'inProgress', 'awaitingFeedback', 'done'];
     containerIds.forEach(containerId => {
         if (containerId !== id) {

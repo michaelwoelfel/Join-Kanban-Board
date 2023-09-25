@@ -75,9 +75,6 @@ function getTime() {
     }
 }
 
-
-// BOARD START
-
 /**
  * Initialize the Board functions.
  * Load HTML, add black color to the sidebar, and render the tasks.
@@ -96,9 +93,6 @@ function colorBoard() {
     document.getElementById('board').classList.add('sidebar-color-black');
 }
 
-// BOARD END
-
-// ADDTASK START
 
 /**
  * Initialize the Add Task functions.
@@ -115,7 +109,11 @@ async function initAddTask() {
 }
 
 
-function currentDate(){
+/**
+ * Sets the "min" attribute of the "addTaskInputDate" input field to the current date.
+ * Ensures that users cannot select a date before the current day in that input field.
+ */
+function currentDate() {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); 
@@ -124,13 +122,13 @@ function currentDate(){
     document.getElementById("addTaskInputDate").setAttribute("min", today);
 };
 
+
 /**
  * Clicks on the name on add_task when before clicked on addtask on a specific Contact.
  */
 function clickName() {
     let name = localStorage.getItem('contactName');
     if (name !== null) {
-
         let checkbox = document.querySelector(`input[name="${name}"]`);
         if (checkbox !== null) {
             checkbox.checked = true;
@@ -147,9 +145,6 @@ function colorAddTask() {
     document.getElementById('tasks').classList.add('sidebar-color-black');
 }
 
-// ADDTASK END
-
-// CONTACTS START
 
 /**
  * Initialize the Contacts functions.
@@ -169,9 +164,6 @@ function colorContacts() {
     document.getElementById('contacts').classList.add('sidebar-color-black');
 }
 
-// CONTACTS END
-
-// LEGAL NOTICE START
 
 /**
  * Initialize the Legal Notice functions.
@@ -190,22 +182,31 @@ function colorLegalNotice() {
     document.getElementById('legalNotice').classList.add('sidebar-color-black');
 }
 
-// LEGAL NOTICE END
-
+/**
+ * Adds the class 'sidebar-color-black' to the 'legalnotice' element.
+ */
 function showMenu() {
     document.getElementById('menu').classList.remove('menu-container-d-none');
     document.getElementById('menu').classList.add('show-overlay-menu');
 }
-
+/**
+ * Adds the class 'sidebar-color-black' to the 'legalnotice' element.
+ */
 function hideMenu() {
     document.getElementById('menu').classList.remove('show-overlay-menu');
     document.getElementById('menu').classList.add('hide-overlay-menu');
 }
 
-// 
 
-// TASK MOBILE BOARD
 
+/**
+ * Edits the status of a task by its index.
+ * 
+ * This function modifies the task status in the 'tasks' array, hides 
+ * the task display element, updates the storage, and then refreshes 
+ * the HTML representation of the tasks.
+ * 
+ */
 async function editTaskStatus(index, newStatus) {
     let task = tasks[index];
     task.status = newStatus;
@@ -214,12 +215,17 @@ async function editTaskStatus(index, newStatus) {
     updateHTML();
 }
 
-// Function to check the screen width
+
+/**
+ * Adds the class 'sidebar-color-black' to the 'legalnotice' element.
+ */
 function isMobileWidth() {
     return window.innerWidth <= 800;
 }
 
-// Function to handle the task click event
+/**
+ * Depending on the screen width shows either the Task or opens the responsive window to handle task actions. 
+ */
 function handleTaskClick(taskId) {
     if (isMobileWidth()) {
         editTaskResponsive(taskId); // For mobile devices, call openTask function
@@ -228,6 +234,10 @@ function handleTaskClick(taskId) {
     }
 }
 
+
+/**
+ * Closes the edit Task window.
+ */
 function closeEditTaskModal() {
     document.getElementById('showTask').classList.add('d-none');
 }

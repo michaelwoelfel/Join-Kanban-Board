@@ -1,7 +1,6 @@
 
 /**
  * Generates an HTML template for a given task.
- * 
  * @param {Object} task - The task object containing details like id, category, name, tasktext, and priority.
  * @returns {string} An HTML template representing the task.
  */
@@ -100,7 +99,6 @@ async function generateTaskDetailsHTML(index) {
         </div>
     `;
 }
-
 
 
 /**
