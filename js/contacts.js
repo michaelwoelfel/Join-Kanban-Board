@@ -1,4 +1,4 @@
-
+let colorIndex = 0;
 /**
  * Collects the input values, pushes a new contact to the list and saves the list in the local storage.
  * Notifies the user about the added contact and re-renders the contact list.
