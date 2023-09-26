@@ -55,17 +55,31 @@ async function renderContacts() {
         const firstLetter = contact['name'].charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            document.getElementById('contactList').innerHTML += createLetterHeader(currentLetter); 
+            document.getElementById('contactList').innerHTML += createLetterHeader(currentLetter);
         }
         let secondLetter = '';
-        let nameParts = contact['name'].split(' ');
-        if (nameParts.length > 1 && nameParts[1].length > 0) {
-            secondLetter = nameParts[1].charAt(0).toUpperCase();
-        }
+        secondLetter = getSecondLetter(contact);
         let randomColor = contact.color;
         contact.color = randomColor;
-        document.getElementById('contactList').innerHTML += createContact(i, contact, randomColor, secondLetter); 
+        document.getElementById('contactList').innerHTML += createContact(i, contact, randomColor, secondLetter);
     }
+}
+
+
+/**
+ * Retrieves the first letter of the second word in a contact's name.
+ * This function splits the contact's name by space and, if a second word exists,
+ * returns the first letter of that word in uppercase. If a second word doesn't exist,
+ * the function may return an undefined value.
+ * 
+ */
+function getSecondLetter(contact) {
+    let nameParts = contact['name'].split(' ');
+    let secondLetter;
+    if (nameParts.length > 1 && nameParts[1].length > 0) {
+        secondLetter = nameParts[1].charAt(0).toUpperCase();
+    }
+    return secondLetter;
 }
 
 
@@ -97,7 +111,7 @@ function taskAddedToBoard() {
 async function showContact(i, randomColor, secondLetter) {
     const contact = contacts[i];
     const firstLetter = contact['name'].charAt(0).toUpperCase();
-    const contactInfoHTML = await createContactInfoHTML(i, contact, randomColor, firstLetter, secondLetter); 
+    const contactInfoHTML = await createContactInfoHTML(i, contact, randomColor, firstLetter, secondLetter);
     document.getElementById('showContact').innerHTML = contactInfoHTML;
     if (window.matchMedia("(max-width: 800px)").matches) {
         document.getElementById('contactInfo').classList.add('d-flex');
@@ -142,9 +156,12 @@ async function saveContact(i) {
     contact.name = ContactName;
     contact.mail = ContactMail;
     contact.phone = ContactPhone;
+    randomColor = await getRandomColor();
+    secondLetter = await getSecondLetter(contact);
     await setItem('contacts', JSON.stringify(contacts));
     renderContacts();
     setTimeout(closeEditContact, 500);
+    showContact(i, randomColor, secondLetter);
 };
 
 /**
@@ -177,12 +194,6 @@ function openEditContact() {
 
 }
 
-/**
- * Closes the edit contact form.
- */
-function closeEditContact() {
-    document.getElementById('modalOneEdit').classList.add('d-none');
-}
 
 /**
  * Closes the edit contact form.
