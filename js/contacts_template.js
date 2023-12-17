@@ -28,7 +28,7 @@ function createContact(index, contact, randomColor, secondLetter) {
     const mail = contact.mail;
     return `
         <div class="contact-container">
-            <div onclick="showContact(${index},'${randomColor}','${secondLetter}')" class="contact">
+            <div id="contactNumber${index}"onclick="showContact(${index},'${randomColor}','${secondLetter}')" class="contact">
                 <div class="imgcontainer" style="background-color: ${randomColor};">
                     <span id="firstLetter">${name.charAt(0).toUpperCase()}</span>
                     <span id="secondLetter">${secondLetter}</span>

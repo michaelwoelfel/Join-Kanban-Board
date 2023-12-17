@@ -60,7 +60,6 @@ async function renderContacts() {
         secondLetter = await getSecondLetter(contact);
         let randomColor = contact.color;
         contact.color = randomColor;
-        debugger;
         document.getElementById('contactList').innerHTML += await createContact(i, contact, randomColor, secondLetter);
     }
 }
@@ -84,7 +83,6 @@ async function getSecondLetter(contact) {
     }
    
 }
-
 
 /**
  * Creates a Task for a Contact with specific name.
@@ -111,6 +109,8 @@ function taskAddedToBoard() {
  * @param {string} secondLetter - The second letter in the contact avatar.
  */
 async function showContact(i, randomColor, secondLetter) {
+    removeContactBorder();
+    document.getElementById('contactNumber'+ i).classList.add('contactBorder');
     const contact = contacts[i];
     const firstLetter = contact['name'].charAt(0).toUpperCase();
     const contactInfoHTML = await createContactInfoHTML(i, contact, randomColor, firstLetter, secondLetter);
@@ -118,6 +118,15 @@ async function showContact(i, randomColor, secondLetter) {
     if (window.matchMedia("(max-width: 800px)").matches) {
         document.getElementById('contactInfo').classList.add('d-flex');
     }
+}
+
+
+
+function removeContactBorder() {
+    let elementsWithContactBorder = document.querySelectorAll('.contactBorder');
+    elementsWithContactBorder.forEach(element => {
+        element.classList.remove('contactBorder');
+    })
 }
 
 function closeBigContact() {
