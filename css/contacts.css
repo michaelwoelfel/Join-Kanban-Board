@@ -94,7 +94,6 @@ h3 {
 
 /* Dieser Stil gilt für alle Scrollbalken innerhalb der .listofcontacts */
 .listofcontacts::-webkit-scrollbar {
-    width: 12px; /* Breite des Scrollbalkens */
     border-radius: 8px;
 }
 
@@ -592,7 +591,7 @@ margin-top: 10px;
   
    /* Breite */
 ::-webkit-scrollbar {
-    width: 10px;
+   
 }
 
 /* Track */

@@ -2,7 +2,6 @@ let tasks = [];
 let taskIdCounter = 0;
 let currentDraggedElement;
 let subtasks = [];
-let colorIndex = 0;
 let taskStatus = `toDo`;
 
 
@@ -26,7 +25,7 @@ async function addTaskWithPopup(event) {
         showTaskPrioAlert();
     } else {
         let taskPrio = getTaskPrio();
-        await finalizeTaskAdding(taskDetails, taskPrio);
+        await finalizeTaskAddingPopup(taskDetails, taskPrio);
     }
     taskStatus = 'toDo';
 }
@@ -52,6 +51,20 @@ async function addTask(event) {
         await finalizeTaskAddingPopup(taskDetails, taskPrio);
     }
     taskStatus = 'toDo';
+}
+
+/**
+ * Handles the initial task adding preparation.
+ * 
+ * @async
+ * @function prepareTaskAdding
+ * @param {Event} event - The event triggering the function call.
+ * @returns {Promise<void>} Returns a promise that resolves when preparation steps are done.
+ */
+async function prepareTaskAdding(event) {
+    event.stopPropagation();
+    await checkLastTaskId();
+    await loadSelectedUsers();
 }
 
 
@@ -86,6 +99,45 @@ function createTaskElement(taskName, taskSubtask, taskDescription, taskCategory,
     };
 }
 
+
+/**
+ * Finalizes the task addition process.
+ * 
+ * @async
+ * @function finalizeTaskAdding
+ * @param {Object} taskDetails - An object containing task details.
+ * @param {string} taskPrio - The priority of the task.
+ * @returns {Promise<void>} Returns a promise that resolves when the task addition is finalized.
+ */
+async function finalizeTaskAdding(taskDetails, taskPrio) {
+    let taskId = taskIdCounter++;
+    let task = createTaskElement(taskDetails.taskName, taskDetails.taskSubtask, taskDetails.taskDescription,
+        taskDetails.taskCategory, taskDetails.taskCategorybc, taskDetails.taskAssign,
+        taskDetails.taskDate, taskPrio, taskId);
+    await addTaskToList(task);
+    selectedUsers = [];
+    await saveSelectedUsers();
+    setTimeout(closePopup, 1000);
+}
+
+
+/**
+ * Finalizes the task addition process and navigates to the board page.
+ * 
+ * @param {Object} taskDetails - An object containing task details.
+ * @param {string} taskPrio - The priority of the task..
+ */
+async function finalizeTaskAddingPopup(taskDetails, taskPrio) {
+    let taskId = taskIdCounter++;
+    let task = createTaskElement(taskDetails.taskName, taskDetails.taskSubtask, taskDetails.taskDescription,
+        taskDetails.taskCategory, taskDetails.taskCategorybc, taskDetails.taskAssign,
+        taskDetails.taskDate, taskPrio, taskId);
+    await addTaskToList(task);
+    selectedUsers = [];
+    await saveSelectedUsers();
+    setTimeout(() => window.open('board.html', '_self'), 1000);
+}
+
 /**
  * Adds a task to the task list and updates storage.
  * 
@@ -114,7 +166,7 @@ function addTaskInProgress() {
 /**
  * Prepares to add a task with status "awaitingFeedback".
  * 
- * @function addTaskAwaitingFb
+ * 
  */
 function addTaskAwaitingFb() {
     addTaskPopUp();
@@ -127,23 +179,12 @@ function addTaskAwaitingFb() {
  * @function addTaskDone
  */
 function addTaskDone() {
-    addTaskPopUp();
     taskStatus = "done";
+    addTaskPopUp();
+
 }
 
-/**
- * Handles the initial task adding preparation.
- * 
- * @async
- * @function prepareTaskAdding
- * @param {Event} event - The event triggering the function call.
- * @returns {Promise<void>} Returns a promise that resolves when preparation steps are done.
- */
-async function prepareTaskAdding(event) {
-    event.stopPropagation();
-    await checkLastTaskId();
-    await loadSelectedUsers();
-}
+
 
 /**
  * Gathers task details from UI elements.
@@ -152,31 +193,19 @@ async function prepareTaskAdding(event) {
  * @returns {Object} Returns an object containing task details.
  */
 function gatherTaskDetails() {
-    /* ... (rest of your code) */
+    let taskName = document.getElementById('addTaskTitle').value;
+    let taskSubtask = subtasks;
+    let taskDescription = document.getElementById('addTaskDescription').value;
+    let taskCategory = currentCategory || "category";
+    let taskCategorybc = currentColorOfCategory || "#000000";
+    let taskAssign = selectedUsers;
+    let taskDate = document.getElementById('addTaskInputDate').value;
+    return { taskName, taskSubtask, taskDescription, taskCategory, taskCategorybc, taskAssign, taskDate };
 }
 
-/**
- * Finalizes the task addition process.
- * 
- * @async
- * @function finalizeTaskAdding
- * @param {Object} taskDetails - An object containing task details.
- * @param {string} taskPrio - The priority of the task.
- * @returns {Promise<void>} Returns a promise that resolves when the task addition is finalized.
- */
-async function finalizeTaskAdding(taskDetails, taskPrio) {
-    /* ... (rest of your code) */
-}
 
-/**
- * Finalizes the task addition process and navigates to the board page.
- * 
- * @param {Object} taskDetails - An object containing task details.
- * @param {string} taskPrio - The priority of the task..
- */
-async function finalizeTaskAddingPopup(taskDetails, taskPrio) {
-    /* ... (rest of your code) */
-}
+
+
 
 /**
  * Displays an alert for task priority.
@@ -200,7 +229,7 @@ async function changeTask(i, event) {
     let taskName = document.getElementById('addTaskTitle').value;
     let taskSubtask = task['subtask'];
     let taskDescription = document.getElementById('addTaskDescription').value;
-    let taskCategory = currentCategory;
+    let taskCategory = currentCategory || "category";
     let taskCategorybc = currentColorOfCategory;
     let taskAssign = selectedUsers;
     let taskDate = document.getElementById('addTaskInputDate').value;
@@ -212,7 +241,7 @@ async function changeTask(i, event) {
     task.tasktext = taskDescription;
     task.category = taskCategory;
     task.categoryBackgroundColor = taskCategorybc,
-    task.user = taskAssign;
+        task.user = taskAssign;
     task.date = taskDate;
     task.priority = taskPrio;
     task.status = taskStatus;
@@ -233,7 +262,7 @@ async function loadTaskDetails(task) {
     document.getElementById('addTaskHeaderText').innerHTML = `Edit Task`;
     document.getElementById('addTaskTitle').value = task.name;
     document.getElementById('addTaskDescription').value = task.tasktext;
-    document.getElementById('addTaskCategorySelect').value = task.category;
+    document.getElementById('dropdown').innerHTML = task.category;
     await checkboxUsers(task);
     document.getElementById('addTaskInputDate').value = task.date;
     taskStatus = task.status;
@@ -416,13 +445,14 @@ async function renderUsersInTask(task) {
     userTasks = task['user'];
     let idTask = task.id;
     let userContainer = document.getElementById(`usersInTask${idTask}`);
-    for (let i = 0; i < userTasks.length; i++) {
+    for (let i = 0; i < 5; i++) {
         const element = userTasks[i];
+        console.log(element);
         let nameParts = element.split(' ');
         let firstLetter = nameParts[0].charAt(0);
         let secondLetter = nameParts.length > 1 ? nameParts[1].charAt(0) : '';
         let contact = getContactFromName(nameParts.join(' '));
-        let randomColor = contact.color;
+        let randomColor = contact ? contact.color : getRandomColor();
         userContainer.innerHTML += await taskUserTemplate(randomColor, firstLetter, secondLetter);
     };
 }
@@ -559,130 +589,6 @@ function taskAddedToBoard() {
 
 
 /**
- * Adds a new subtask based on user input.
- * This function captures the user's subtask input, checks certain conditions
- * (like not exceeding a maximum limit), then renders the subtask and adds it to 
- * the subtasks list.
- */
-function addNewSubtask() {
-    const newSubtask = document.getElementById('addTaskInputSubtask').value;
-    let currentSubtasks = document.getElementById('showSubtasks');
-    if (newSubtask === '')
-        alert('Bitte Feld ausfüllen!!')
-    else {
-        if (subtasks.length >= 3) {
-            alert('Maximal drei Subtasks erstellen');
-        } else {
-            renderSubtask(currentSubtasks, newSubtask);
-            subtasks.push({
-                name: newSubtask,
-                clicked: `false`,
-            });
-            document.getElementById('addTaskInputSubtask').value = '';
-        }
-    }
-}
-
-/**
- * Renders a single subtask in the user interface.
- * @param {HTMLElement} currentSubtasks - The container element for displaying subtasks.
- * @param {string} newSubtask - The subtask name or content to render.
- */
-function renderSubtask(currentSubtasks, newSubtask) {
-    currentSubtasks.innerHTML += /*html*/`
-    <div class="subtasksbig">
-        <img class="donesign" src="assets/img/subtask_square.png" alt="Subtasks">
-        <span class="subtasknumber"></span> <span>${newSubtask}</span>
-    </div>    
-    `;
-    return;
-}
-
-
-/**
- * Renders a list of subtasks for a task.
- * This function loads the tasks, processes the subtasks for the given task, 
- * and updates the corresponding DOM elements to display the subtasks and their progress.
- * @param {Object} task - The task object containing subtasks and other details.
- */
-async function renderSubtasks(task) {
-    await loadTasks();
-    let subtask = task.subtask;
-    let taskCount = subtask.length;
-    let tasksClicked = await countClickedSubtasks(subtask);
-    let id = task.id;
-    if (taskCount > 0) {
-        document.getElementById(`subtasks${id}`).innerHTML += await /*html*/`
-        <div class="subtaskssmall">
-            <div><div class="subtaskprogressbar"><div id="subtaskprogressbar${id}"></div></div></div>
-            <span>${tasksClicked}/${subtask.length} Subtasks</span>
-        </div>    
-        `;
-        await colorSubtaskProgress(tasksClicked, taskCount, id);
-    }
-}
-
-/**
- * Colors the subtask progress bar based on the number of clicked subtasks.
- * This function calculates the percentage of clicked subtasks and adjusts 
- * the progress bar width and color accordingly.
- * @param {number} tasksClicked - The number of subtasks that are clicked (completed).
- * @param {number} taskCount - The total count of subtasks.
- * @param {number} id - The task's ID.
- */
-async function colorSubtaskProgress(tasksClicked, taskCount, id) {
-    let progressBar = document.getElementById(`subtaskprogressbar${id}`);
-    let colorPercent = tasksClicked / taskCount * 100;
-    progressBar.style.width = `${colorPercent}%`;
-    progressBar.style.backgroundColor = '#4589FF';
-    progressBar.style.height = '10px';
-    progressBar.style.borderRadius = '10px';
-}
-
-/**
- * Counts the number of subtasks that are clicked (completed).
- * @param {Array<Object>} subtask - An array of subtask objects.
- */
-async function countClickedSubtasks(subtask) {
-    let count = 0;
-    for (let i = 0; i < subtask.length; i++) {
-        let element = subtask[i];
-        if (element['clicked'] === 'true') {
-            count++;
-        }
-    }
-    return count;
-}
-
-
-/**
- * Renders the detailed (big) view of subtasks for a task.
- * This function processes each subtask for the given task and updates
- * the DOM to display them in a detailed view, including interactivity.
- * @param {Object} task - The task object containing subtasks and other details.
- */
-async function renderSubtasksBig(task) {
-    await loadTasks();
-    const subtask = task.subtask;
-    const id = task.id;
-    for (let i = 0; i < subtask.length; i++) {
-        let element = subtask[i];
-        elementString = JSON.stringify(element);
-        let imgSrc = "assets/img/subtask_square.png";
-        let clicked = element['clicked']
-        if (clicked == 'true') {
-            imgSrc = "assets/img/done_white.png";
-            clicked = 'true';}
-        document.getElementById(`subtasksbig${id}`).innerHTML += /*html*/`
-        <div class="subtasksbig">
-            <img class="donesign" onclick="addDoneSignToSquare(event,'${id}',${i})" src="${imgSrc}" alt="Subtasks" data-clicked="${clicked}">
-            <span>${element['name']}</span>
-        </div>    
-        `;
-    }
-}
-
-/**
  * Renders the subtasks for a task in edit mode.
  * This function processes each subtask for the given task and updates
  * the DOM to display them in a format suitable for editing.
@@ -735,5 +641,3 @@ async function addDoneSignToSquare(event, id, i) {
     setItem('tasks', JSON.stringify(tasks));
     console.log('clicked');
 }
-
-

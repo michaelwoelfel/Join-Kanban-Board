@@ -112,6 +112,10 @@
     animation: 3s addToBoard;
 }
 
+#addTaskInputDate:hover {
+    cursor: pointer;
+}
+
 .show-subtasks {
     padding-left: 20px;
     display: flex;
@@ -127,9 +131,12 @@
 .subtasksbig {
     width: 100%;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     display: flex;
     gap: 10px;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    padding-left: 20px;
 }
 
 .subtask_plus {

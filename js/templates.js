@@ -196,7 +196,7 @@ async function renderPopUp(popup) {
                     <span>Subtasks</span>
                     <div class="subtask_container">
                         <input class="task_input_field_styling" type="text" name="" id="addTaskInputSubtask"
-                            maxlength="20" placeholder="Add new subtask" required><img class="subtask_plus"
+                            maxlength="30" placeholder="Add new subtask" required><img class="subtask_plus"
                             onclick="addNewSubtask()" src="assets/img/subtask_plus.png" alt="add Subtask">
                     </div>
 </div>

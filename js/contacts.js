@@ -7,7 +7,7 @@ async function addContact() {
     let ContactName = document.getElementById('contactName').value;
     let ContactMail = document.getElementById('contactMail').value;
     let ContactPhone = document.getElementById('contactPhone').value;
-    let contactColor = getRandomColor();
+    let contactColor = await getRandomColor();
     contacts.push({
         name: ContactName,
         mail: ContactMail,
@@ -15,8 +15,7 @@ async function addContact() {
         color: contactColor,
     });
     await setItem('contacts', JSON.stringify(contacts));
-    getRandomColor();
-    renderContacts();
+    await renderContacts();
     document.getElementById('addedToBoard').style.zIndex = "1500";
     await taskAddedToBoard();
     setTimeout(closeAddContact, 1000);
@@ -50,7 +49,7 @@ async function renderContacts() {
     await sortContactsAlphabetically();
     let currentLetter = '';
     document.getElementById('contactList').innerHTML = '';
-    for (let i = 2; i < contacts.length; i++) {
+    for (let i = 0; i < contacts.length; i++) {
         const contact = contacts[i];
         const firstLetter = contact['name'].charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
@@ -58,10 +57,11 @@ async function renderContacts() {
             document.getElementById('contactList').innerHTML += createLetterHeader(currentLetter);
         }
         let secondLetter = '';
-        secondLetter = getSecondLetter(contact);
+        secondLetter = await getSecondLetter(contact);
         let randomColor = contact.color;
         contact.color = randomColor;
-        document.getElementById('contactList').innerHTML += createContact(i, contact, randomColor, secondLetter);
+        debugger;
+        document.getElementById('contactList').innerHTML += await createContact(i, contact, randomColor, secondLetter);
     }
 }
 
@@ -73,13 +73,16 @@ async function renderContacts() {
  * the function may return an undefined value.
  * 
  */
-function getSecondLetter(contact) {
+async function getSecondLetter(contact) {
     let nameParts = contact['name'].split(' ');
     let secondLetter;
     if (nameParts.length > 1 && nameParts[1].length > 0) {
         secondLetter = nameParts[1].charAt(0).toUpperCase();
+        return secondLetter;
+    } else {
+        return "";
     }
-    return secondLetter;
+   
 }
 
 
@@ -96,7 +99,6 @@ async function createTaskForContact(name) {
 function taskAddedToBoard() {
     const container = document.querySelector('.addedTaskToBoard_content');
     container.classList.add('show');
-
     setTimeout(() => {
         container.classList.remove('show');
     }, 1000);
@@ -156,10 +158,10 @@ async function saveContact(i) {
     contact.name = ContactName;
     contact.mail = ContactMail;
     contact.phone = ContactPhone;
-    randomColor = await getRandomColor();
+    randomColor = contact.color;
     secondLetter = await getSecondLetter(contact);
     await setItem('contacts', JSON.stringify(contacts));
-    renderContacts();
+    await renderContacts();
     setTimeout(closeEditContact, 500);
     showContact(i, randomColor, secondLetter);
 };
@@ -242,8 +244,7 @@ function getRandomInt(min, max) {
  * Returns a random RGB color.
  * @returns {string} - A random RGB color.
  */
-function getRandomColor() {
-
+async function getRandomColor() {
     const colors = [
         'rgb(1, 144, 224)',
         'rgb(255, 92, 0)',
@@ -269,7 +270,7 @@ function getRandomColor() {
     if (colorIndex >= colors.length) {
         colorIndex = 0;
     }
-    const color = colors[colorIndex];
+   let color = colors[colorIndex];
     colorIndex++;
     return color;
 }

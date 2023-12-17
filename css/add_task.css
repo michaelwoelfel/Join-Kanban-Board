@@ -33,8 +33,15 @@ body{
     background-color: white; 
 }
 
+.subtask{
+    display: flex;
+    align-items: center;
+}
 
 
+.margin-left {
+    margin-left: 10px;
+}
 .fd_column {
     display: flex;
     flex-direction: column;

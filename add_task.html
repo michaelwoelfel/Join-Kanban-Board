@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="css/add_task.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/menu.css">
-
     <link rel="icon" type="image/x-icon" href="assets/img/logo_dark.png">
 </head>
 
@@ -21,7 +20,9 @@
 <script src="js/signupandlogin.js"></script>
 
 <script src="js/script.js"></script>
+
 <script src="js/tasks.js"></script>
+
 <script src="js/board.js"></script>
 <script src="js/categories.js"></script>
 
@@ -47,9 +48,9 @@
         <div class="hidden-Kanban">Kanban Project Management Tool</div>
         <h1 class="add_task_h1">Add Task</h1>
         <!-- ADD TASK CONTAINER -->
-        <div class="add_task_container">
+        <form onsubmit="addTask(event)" class="add_task_container">
             <!-- TASK TITLE -->
-            <form class="add_task_left">
+            <div class="add_task_left">
                 <div class="title fd_column">
                     <span>Title</span>
                     <input class="task_input_field_styling" required type="text" placeholder="Enter a title"
@@ -80,11 +81,11 @@
                 <span id="assignto">Assign to</span>
                 <div id="selectInnerUser" class="assign fd_column selectInnerUser">
                 </div>
-            </form>
+            </div>
             <!-- SEPERATOR -->
             <div class="seperator fd_column"></div>
             <!-- TASK DATE -->
-            <form class="add_task_right">
+            <div class="add_task_right">
                 <div class="date fd_column">
                     <span>Due date</span>
                     <input class="task_input_field_styling" type="date" name="" id="addTaskInputDate" required
@@ -116,16 +117,17 @@
                     <div class="show-subtasks" id="showSubtasks">
                     </div>
                 </div>
-            </form>
-        </div>
-        <!-- BUTTONS CLEAR AND ADD TASK -->
-        <div class="buttons-clear-create">
-            <div onclick="clearTask(event)" class="clear-btn btn">Clear <img src="assets/img/add_task_cancel.png"
-                    alt="check">
             </div>
-            <div onclick="addTask(event)" class="create-btn btn">Create Task <img src="assets/img/add_task_check.png"
-                    alt="cancel"></div>
-        </div>
+            <div class="buttons-clear-create">
+                <div onclick="clearTask(event)" class="clear-btn btn">Clear <img src="assets/img/add_task_cancel.png"
+                        alt="check">
+                </div>
+                <button type="submit"  class="create-btn btn">Create Task <img src="assets/img/add_task_check.png"
+                        alt="cancel"></div>
+        </form>
+        <!-- BUTTONS CLEAR AND ADD TASK -->
+       
+       
         <!-- ADD TASK ANIMATION -->
         <div class="animation-addedToBoard">
             <span class="addedTaskToBoard_content">Task added to board <img class="board" src="assets/img/board_img.png"
@@ -133,7 +135,7 @@
         </div>
     </div>
 </body>
-
+<script src="js/subtasks.js"></script>
 </html>
 
 

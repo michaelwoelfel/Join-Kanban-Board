@@ -91,6 +91,7 @@ img{
     gap: 20px;
     justify-content: space-between;
     align-items: center;
+    white-space: nowrap;
 }
 
 .plusbutton {
@@ -214,6 +215,7 @@ h3 {
     justify-content: space-between;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .taskcontainer {
@@ -272,6 +274,9 @@ h3 {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .subtaskdescription {
@@ -351,11 +356,9 @@ h3 {
     display: flex;
     align-items: center;
     gap: 15px;
-    height: 30px;
+    height: 100%;
     margin-right: 5px;
-    width: 100%;
-    justify-content: space-around;
-    
+    width: 100%;  
 }
 
 
@@ -445,12 +448,15 @@ h3 {
     padding-left: 0;
     justify-content: center;
     display: flex;
+    text-align: center;
 }
 
 .subtaskdescription {
     justify-content: space-evenly;
     display: flex;
     padding-left: 0;
+    width: 100%;
+   
     
 }
 
@@ -459,6 +465,7 @@ h3 {
     justify-content: center;
     margin-left: 0;
     text-align: center;
+    padding-top: 10px;
 }
 
 .taskheader {
@@ -483,13 +490,13 @@ h3 {
     color: #A8A8A8;
     display: flex;
     overflow: auto;
+    padding: 10px;
 }
 
 
 
    /* Breite */
 ::-webkit-scrollbar {
-    width: 10px;
     border-radius: 8px;
     color: white;
 }
@@ -584,7 +591,7 @@ h3 {
     }
 
     .category {
-        margin-left: 0;
+        margin-left: 15px;
     }
 
     .task {
@@ -669,7 +676,8 @@ h3 {
     }
 
     .taskfooter {
-        gap: 10px;
+        justify-content: space-between;
+        width: 100%;
         align-items: center;
     }
 
@@ -681,6 +689,7 @@ h3 {
     .hidden-Kanban {
         margin-top: 32px;
         margin-left: 100px;
+        
     }
 
 
@@ -738,12 +747,25 @@ h3 {
 }
 
 
-@media(max-width: 365px) {
+
+}
+@media(max-width: 730px) {
     .taskdescriptionbig {
         display: flex;
         text-align: center;
+        font-size: 30px;
     }
-}
+
+    .subtaskdescription {
+        width: 100%;
+        overflow: auto;
+        height: 80px;
+        margin: 0;
+    }
+
+    .tasktext {
+        font-size: 20px;
+    }
 }
 
 

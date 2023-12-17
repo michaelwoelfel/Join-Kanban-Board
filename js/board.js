@@ -9,18 +9,18 @@ let selectedUsers = [];
 async function addTaskPopUp() {
     let popup = document.getElementById('popupAddTask');
     popup.classList.remove('d-none');
-    renderPopUp(popup);
+    await renderPopUp(popup);
+    await currentDate();
     await renderTaskContacts();
-    currentDate();
 }
 
 /**
  * Closes the add task popup and re-renders the tasks.
  */
-function closePopup() {
+async function closePopup() {
     let popup = document.getElementById('popupAddTask');
     popup.classList.add('d-none');
-    renderTasks();
+   await renderTasks();
 }
 
 /**
@@ -73,9 +73,10 @@ function prioColorGreen() {
  */
 async function renderTaskContacts() {
     await loadContacts();
-    let userSelection = `
+    setTimeout(()=>{
+        let userSelection = `
         <div id="selectInnerUser">`;
-    for (let i = 2; i < contacts.length; i++) {
+    for (let i = 0; i < contacts.length; i++) {
         let contact = contacts[i];
         userSelection += `
             <input onclick="pushCurrentContact(event)" type="checkbox" id="name${i}" name="${contact['name']}" value="${contact['name']}">
@@ -83,7 +84,9 @@ async function renderTaskContacts() {
     }
     userSelection += `
         </div>`;
-    document.getElementById('selectInnerUser').innerHTML = userSelection;
+     document.getElementById('selectInnerUser').innerHTML = userSelection;
+    },50)
+   
 }
 
 /**
